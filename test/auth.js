@@ -1,6 +1,7 @@
-import chai, { expect } from 'chai';
-import chaiHttp from 'chai-http';
-import server from '../server';
+const chai = require('chai');
+const expect = chai.expect;
+const chaiHttp = require('chai-http');
+const server = require('../dist/server.js');
 
 process.env.NODE_ENV = 'test';
 
@@ -94,7 +95,7 @@ describe('POST api/auth/login', () => {
 			.post('/api/auth/login')
 			.set('content-type', 'application/x-www-form-urlencoded')
 			.send({
-				email: 'test@test.com',
+				email: 'john@codeandcreative.com',
 				password: '12345'
 			})
 			.end((err, res) => {
@@ -113,8 +114,8 @@ describe('POST api/auth/login', () => {
 			.post('/api/auth/login')
 			.set('content-type', 'application/x-www-form-urlencoded')
 			.send({
-				email: 'test@test.com',
-				password: '123456'
+				email: 'john@codeandcreative.com',
+				password: 'p&55Word'
 			})
 			.end((err, res) => {
 				expect(err).to.be.null;
