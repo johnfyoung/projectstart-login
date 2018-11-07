@@ -4,7 +4,7 @@ const router = new express.Router();
 import gravatar from 'gravatar';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { keys } from '../../config/keys';
+import keys from '../../config/keys';
 import passport from 'passport';
 
 // Load Input Validation
@@ -14,7 +14,7 @@ import validateLoginInput from '../../validation/login';
 // Load User model
 import User from '../../models/User';
 
-// @route   GET api/auth/register
+// @route   POST api/auth/register
 // @desc    Register a user
 // @access  Public
 router.post('/register', (req, res) => {
@@ -74,7 +74,6 @@ router.post('/login', (req, res) => {
 	if (!isValid) {
 		return res.status(400).json(errors);
 	}
-
 
 	const email = req.body.email;
 	const password = req.body.password;

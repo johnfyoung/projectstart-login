@@ -17,7 +17,7 @@ import keys from './config/keys';
 const db = keys.mongoURI;
 
 mongoose
-	.connect(db)
+	.connect(db, { useNewUrlParser: true })
 	.then(() => console.log('MongoDB connected'))
 	.catch((err) => console.log(err));
 
@@ -28,6 +28,7 @@ passportStrategy(passport);
 
 // Routes
 import auth from './routes/api/auth';
+app.use('/api/auth', auth);
 
 // Set port to listen to
 const port = process.env.PORT || 5000;
