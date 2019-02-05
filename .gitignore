@@ -22,3 +22,8 @@ client/yarn-debug.log*
 client/yarn-error.log*
 
 /config/keys_dev.js
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
