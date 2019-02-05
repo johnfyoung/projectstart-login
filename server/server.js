@@ -1,13 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
-//import path from 'path';
+import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 
 // Get the App
-var app = express();
+const app = express();
 
+// Middleware
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,7 +28,11 @@ import passportStrategy from './config/passport.js';
 passportStrategy(passport);
 
 // Routes
+import rootRoute from './routes/index';
+import users from './routes/users';
 import auth from './routes/api/auth';
+app.use('/', rootRoute);
+app.use('/users', users);
 app.use('/api/auth', auth);
 
 // Set port to listen to
@@ -39,7 +44,9 @@ app.listen(port, () => console.log(`Server running on port ${port}`));
 /**
  * Stops the server
  */
-const stop = () => app.stop();
+export function stop() {
+	app.stop();
+}
 
 // catch 404 and forward to error handler
 // app.use(function (req, res, next) {
@@ -59,5 +66,4 @@ const stop = () => app.stop();
 //   res.render('error');
 // });
 
-module.exports = app;
-module.exports.stop = stop;
+export default app;
