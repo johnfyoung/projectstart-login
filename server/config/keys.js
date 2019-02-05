@@ -1,10 +1,5 @@
-/**
- * Keys
- */
-
-const keys = {
-	mongoURI: `mongodb://schoolpoints:${process.env.MONGODB_POINTS}@ds155243.mlab.com:55243/schoolpoints`,
-	secretOrKey: 'secret'
-};
-
-export default keys;
+if (process.env.NODE_ENV === 'production') {
+	module.exports = require('./keys_prod');
+} else {
+	module.exports = require('./keys_dev');
+}

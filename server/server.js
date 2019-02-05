@@ -28,12 +28,18 @@ import passportStrategy from './config/passport.js';
 passportStrategy(passport);
 
 // Routes
-import rootRoute from './routes/index';
-import users from './routes/users';
 import auth from './routes/api/auth';
-app.use('/', rootRoute);
-app.use('/users', users);
 app.use('/api/auth', auth);
+
+// Serve static assets if in production and not found
+if (process.env.NODE_ENV === 'production') {
+	//Set Static folder
+	app.use(express.static('client/build'));
+
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client/build/index.html'));
+	})
+}
 
 // Set port to listen to
 const port = process.env.PORT || 5000;
