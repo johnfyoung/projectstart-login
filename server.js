@@ -31,6 +31,9 @@ passportStrategy(passport);
 import auth from './routes/api/auth';
 app.use('/api/auth', auth);
 
+import install from './routes/api/install';
+app.use('/api/install', install);
+
 // Serve static assets if in production and not found
 if (process.env.NODE_ENV === 'production') {
 	//Set Static folder
