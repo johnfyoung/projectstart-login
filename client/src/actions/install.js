@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { SET_ISINSTALLED } from './types';
+import { SET_ISINSTALLED, GET_ERRORS } from './types';
 
 export const setInstallation = (data) => {
     console.log("actions::setInstallation - data", data);
@@ -26,3 +26,18 @@ export const checkForInstallation = () => dispatch => {
             })
     }
 }
+
+export const install = (payload) => dispatch => {
+    axios.post('/api/install/install', payload)
+        .then(res => {
+            console.log("actions::install - installed", res);
+            // localStorage.setItem('isInstalled', true);
+            // dispatch(setInstallation(res.data));
+        }).catch(err => {
+            console.log("actions::install - not installed", err.response.data);
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        })
+};

@@ -8,7 +8,21 @@
     "dev": "concurrently \"yarn dev:server\" \"yarn --cwd client start\"",
     "build": "rm -rf ./dist && webpack --mode production --config webpack.server.prod.config.js",
     "start": "node ./dist/server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn build && yarn --cwd client && yarn --cwd client build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn build && yarn --cwd client && yarn --cwd client build",
+    "test": "mocha"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ]
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -28,10 +42,12 @@
     "@babel/core": "7.2.2",
     "@babel/preset-env": "7.3.1",
     "babel-loader": "8.0.4",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "concurrently": "^4.1.0",
     "file-loader": "^3.0.1",
     "nodemon": "^1.17.5",
     "nodemon-webpack-plugin": "^4.0.7",
+    "supertest": "^3.4.2",
     "webpack": "4.19.1",
     "webpack-cli": "^3.2.1",
     "webpack-dev-middleware": "^3.5.1",

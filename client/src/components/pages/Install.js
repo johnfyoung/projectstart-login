@@ -1,24 +1,62 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
+import { install } from '../../actions/install';
 
 class Install extends Component {
     state = {
         errors: {},
         appName: '',
         userFullName: '',
-        userGravatar: '',
         userEmail: '',
-        userPass: '',
-        userPass2: ''
+        userPassword: '',
+        userPassword2: ''
     };
 
     componentDidMount() {
         console.log('componentDidMount props', this.props);
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        console.log('Install::getDerivedStateFromProps nextProps', nextProps);
+        console.log('Install::getDerivedStateFromProps prevState', prevState);
+        if (nextProps.errors) {
+            return {
+                ...prevState,
+                errors: nextProps.errors
+            };
+        }
+
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.errors !== this.props.errors) {
+            this.setState({
+                errors: this.props.errors
+            });
+        }
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
+        const {
+            appName,
+            userFullName,
+            userEmail,
+            userPassword,
+            userPassword2
+        } = this.state;
+
+        const site = {
+            appName,
+            userFullName,
+            userEmail,
+            userPassword,
+            userPassword2
+        }
+        this.props.install(site);
         console.log("submitting...")
     }
 
@@ -29,7 +67,7 @@ class Install extends Component {
     }
 
     render() {
-
+        const { errors } = this.state;
         return (
             <div className="container">
                 <div className="row justify-content-center">
@@ -42,32 +80,32 @@ class Install extends Component {
                                 <h2>App details</h2>
                                 <div className="form-group">
                                     <label htmlFor="appName">App name</label>
-                                    <input type="appName" className="form-control" id="appName" aria-describedby="appNameHelp" placeholder="Enter an app name" value={this.state.appName} onChange={e => this.onChange(e, 'appName')} />
+                                    <input type="appName" className={`form-control ${errors.appName ? 'is-invalid' : ''}`} id="appName" aria-describedby="appNameHelp" placeholder="Enter an app name" value={this.state.appName} onChange={e => this.onChange(e, 'appName')} />
+                                    {errors.appName && (<div className="invalid-feedback">{errors.appName}</div>)}
                                     <small id="appNameHelp" className="form-text text-muted">Used to brand your app</small>
                                 </div>
                                 <hr />
                                 <h2>Super user details</h2>
                                 <div className="form-group">
                                     <label htmlFor="userFullName">Full name</label>
-                                    <input type="userFullName" className="form-control" id="userFullName" placeholder="Enter full name" value={this.state.userFullName} onChange={e => this.onChange(e, 'userFullName')} />
+                                    <input type="userFullName" className={`form-control ${errors.userFullName ? 'is-invalid' : ''}`} id="userFullName" placeholder="Enter full name" value={this.state.userFullName} onChange={e => this.onChange(e, 'userFullName')} />
+                                    {errors.userFullName && (<div className="invalid-feedback">{errors.userFullName}</div>)}
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="userEmail">Email address</label>
-                                    <input type="email" className="form-control" id="userEmail" aria-describedby="emailHelp" placeholder="Enter email" value={this.state.userEmail} onChange={e => this.onChange(e, 'userEmail')} />
+                                    <input type="email" className={`form-control ${errors.userEmail ? 'is-invalid' : ''}`} id="userEmail" aria-describedby="emailHelp" placeholder="Enter email" value={this.state.userEmail} onChange={e => this.onChange(e, 'userEmail')} />
+                                    {errors.userEmail && (<div className="invalid-feedback">{errors.userEmail}</div>)}
                                     <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="userGravatar">Gravatar</label>
-                                    <input type="url" className="form-control" id="userGravatar" aria-describedby="gravatarHelp" placeholder="Enter url to your Gravatar" value={this.state.userGravatar} onChange={e => this.onChange(e, 'userGravatar')} />
-                                    <small id="gravatarHelp" className="form-text text-muted">Visit <a href="https://gravatar.com" target="_blank" rel="noopener noreferrer">gravatar.com</a> for more information.</small>
+                                    <label htmlFor="userPassword">Password</label>
+                                    <input type="password" className={`form-control ${errors.userPassword ? 'is-invalid' : ''}`} id="userPassword" placeholder="Password" value={this.state.userPassword} onChange={e => this.onChange(e, 'userPassword')} />
+                                    {errors.userPassword && (<div className="invalid-feedback">{errors.userPassword}</div>)}
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="userPass">Password</label>
-                                    <input type="password" className="form-control" id="userPass" placeholder="Password" value={this.state.userPass} onChange={e => this.onChange(e, 'userPass')} />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="userPass2">Confirm Password</label>
-                                    <input type="password" className="form-control" id="userPass2" placeholder="Confirm Password" value={this.state.userPass2} onChange={e => this.onChange(e, 'userPass2')} />
+                                    <label htmlFor="userPassword2">Confirm Password</label>
+                                    <input type="password" className={`form-control ${errors.userPassword2 ? 'is-invalid' : ''}`} id="userPassword2" placeholder="Confirm Password" value={this.state.userPassword2} onChange={e => this.onChange(e, 'userPassword2')} />
+                                    {errors.userPassword2 && (<div className="invalid-feedback">{errors.userPassword2}</div>)}
                                 </div>
                                 <button type="submit" className="btn btn-primary">Install</button>
                             </form>
@@ -79,5 +117,17 @@ class Install extends Component {
     }
 }
 
+Install.propTypes = {
+    install: PropTypes.func.isRequired,
+    errors: PropTypes.object
+}
 
-export default connect()(Install);
+const mapStateToProps = ({ errors }) => ({
+    errors
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    install: (payload) => dispatch(install(payload))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Install);

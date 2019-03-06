@@ -15,6 +15,10 @@ const userSchema = new Schema({
 		type: String,
 		required: true
 	},
+	roles: {
+		type: Schema.Types.Mixed,
+		required: true
+	},
 	avatar: {
 		type: String
 	},
