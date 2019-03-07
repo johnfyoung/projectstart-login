@@ -29,7 +29,7 @@ class Navbar extends Component {
                 </li>
                 <li className='nav-item d-flex align-items-center'>
                     <span className='text-light'>{user.name}</span>
-                    <img src={user.avatar} alt={`Avatar for ${user.name}`} className='rounded-circle mx-2' style={{ width: '35px' }} title='You must have a gravatar connected to your email to have an iage' />
+                    <img src={user.avatar} alt={`Avatar for ${user.name}`} className='rounded-circle mx-2' style={{ width: '35px' }} title='You must have a gravatar connected to your email to have an image' />
                 </li>
                 <li className='nav-item'>
                     <button className='nav-link btn btn-link' onClick={this.logout}>Logout</button>

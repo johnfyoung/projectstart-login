@@ -104,7 +104,7 @@ router.post('/install', (req, res) => {
                 });
 
             // create default user
-            const avatar = gravatar.url(req.body.email, {
+            const avatar = gravatar.url(req.body.userEmail, {
                 s: '200', // size
                 r: 'pg', // rating
                 d: 'mm' // default
