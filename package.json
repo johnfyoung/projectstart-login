@@ -9,7 +9,7 @@
     "build": "rm -rf ./dist && webpack --mode production --config webpack.server.prod.config.js",
     "start": "node ./dist/server.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn build && yarn --cwd client && yarn --cwd client build",
-    "test": "mocha"
+    "test": "jest __test__ --watch"
   },
   "jest": {
     "verbose": true,
