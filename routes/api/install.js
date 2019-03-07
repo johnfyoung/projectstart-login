@@ -2,6 +2,7 @@ import express from 'express';
 const router = new express.Router();
 import gravatar from 'gravatar';
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 
 import validateInstallInput from '../../validation/install';
 
@@ -9,6 +10,11 @@ import User from '../../models/User';
 import Setting from '../../models/Setting';
 import { permissions, roles } from '../../config/permissions';
 
+/**
+ * @route   GET api/install/isinstalled
+ * @desc    check to see if an app is already installed
+ * @access  Public
+ */
 router.get('/isinstalled', (req, res) => {
     Setting.findOne({
         name: 'isInstalled'
@@ -23,6 +29,11 @@ router.get('/isinstalled', (req, res) => {
     });
 });
 
+/**
+ * @route   POST api/install/install
+ * @desc    Install an app
+ * @access  Public
+ */
 router.post('/install', (req, res) => {
     const {
         errors,
@@ -36,11 +47,11 @@ router.post('/install', (req, res) => {
 
     Setting.findOne({
         name: 'isInstalled',
-        value: 'true'
+        value: true
     }).then((setting) => {
         if (setting) {
             return res.status(400).json({
-                isinstalled: true,
+                isInstalled: true,
                 msg: 'Site already installed'
             });
         } else {
@@ -132,5 +143,19 @@ router.post('/install', (req, res) => {
         }
     });
 });
+
+router.delete('/install', (req, res) => {
+    mongoose.connection.collections['users'].drop(function (err) {
+        console.log('users dropped');
+    });
+
+    mongoose.connection.collections['settings'].drop(function (err) {
+        console.log('settings dropped');
+    });
+
+    return res.status(204).json({
+        isInstalled: false
+    })
+})
 
 export default router;
