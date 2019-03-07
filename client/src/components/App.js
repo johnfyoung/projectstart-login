@@ -45,23 +45,14 @@ class App extends Component {
       return (
 
         <Router>
-          <div className="App">
-            <div>
-              {this.props.isInstalled !== undefined
-                ? (
-                  <div>{`this.props.isInstalled is ${this.props.isInstalled}`}</div>
-                )
-                : (
-                  <div>this.props.isInstalled is undefined</div>
-                )
-              }
-            </div>
-
-            {!this.props.isInstalled && Router.path !== '/' && (
-              <Redirect to='/' />
-            )}
-
-            <Install />
+          <div className='App mt-5'>
+            <Switch>
+              <Route exact path='/' component={Install} />
+              <Route render={() => (
+                <Redirect to='/' />
+              )}
+              />
+            </Switch>
           </div>
         </Router >
 
@@ -70,7 +61,7 @@ class App extends Component {
 
     return (
       <Router>
-        <div className="App">
+        <div className='App'>
           <header className="App-header">
             <Navbar />
           </header>
