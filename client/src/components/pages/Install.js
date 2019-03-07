@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { dbg } from '../../utils/log';
 
 import { install } from '../../actions/install';
 
@@ -15,12 +16,10 @@ class Install extends Component {
     };
 
     componentDidMount() {
-        console.log('componentDidMount props', this.props);
+        dbg('componentDidMount props', this.props);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        console.log('Install::getDerivedStateFromProps nextProps', nextProps);
-        console.log('Install::getDerivedStateFromProps prevState', prevState);
         if (nextProps.errors) {
             return {
                 ...prevState,
@@ -56,8 +55,10 @@ class Install extends Component {
             userPassword,
             userPassword2
         }
-        this.props.install(site);
-        console.log("submitting...")
+        this.props.install(site)
+            .then(() => {
+                this.props.history.push('/');
+            });
     }
 
     onChange = (e, field) => {

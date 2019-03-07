@@ -15,14 +15,25 @@ import NotFound from './pages/NotFound';
 
 import { checkForInstallation } from '../actions/install';
 
+import { dbg } from '../utils/log';
+
 class App extends Component {
   state = {
     isInstalled: false
   }
 
+  componentDidMount() {
+    dbg('App::componentDidMount - props', this.props)
+    if (!this.props.isInstalled) {
+      this.setState({
+        isInstalled: this.props.isInstalled
+      })
+    }
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log('App::getDerivedStateFromProps nextProps', nextProps);
-    console.log('App::getDerivedStateFromProps prevState', prevState);
+    dbg('App::getDerivedStateFromProps nextProps', nextProps);
+    dbg('App::getDerivedStateFromProps prevState', prevState);
     if (nextProps.isInstalled !== undefined && prevState.isInstalled !== undefined && nextProps.isInstalled !== prevState.isInstalled) {
       return {
         ...prevState,
@@ -30,26 +41,27 @@ class App extends Component {
       };
     }
 
-    return prevState;
+    return null;
   }
 
-  componentDidMount() {
-    console.log('App::componentDidMount - props', this.props)
-    if (!this.props.isInstalled) {
-
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.isInstalled !== this.props.isInstalled) {
+      this.setState({
+        isInstalled: this.props.isInstalled
+      });
     }
   }
 
   render() {
-    if (!this.props.isInstalled) {
+    if (!this.state.isInstalled) {
       return (
 
         <Router>
           <div className='App mt-5'>
             <Switch>
-              <Route exact path='/' component={Install} />
+              <Route exact path='/install' component={Install} />
               <Route render={() => (
-                <Redirect to='/' />
+                <Redirect to='/install' />
               )}
               />
             </Switch>

@@ -5,4 +5,4 @@ export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 
 // install
 export const SET_ISINSTALLED = 'SET_ISINSTALLED';
-export const INSTALL = 'INSTALL';
+export const INSTALL_SUCCESSFUL = 'INSTALL_SUCCESSFUL';
