@@ -5,10 +5,10 @@
   "private": true,
   "scripts": {
     "dev:server": "rm -rf ./dist && webpack --mode development --config webpack.server.dev.config.js --watch",
-    "dev": "concurrently \"yarn dev:server\" \"yarn --cwd client start\"",
+    "dev": "concurrently \"npm run dev:server\" \"cd client && npm run start\"",
     "build": "rm -rf ./dist && webpack --mode production --config webpack.server.prod.config.js",
     "start": "node ./dist/server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn build && yarn --cwd client && yarn --cwd client build",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm build && cd client && npm && npm build",
     "test": "jest __test__ --watch"
   },
   "jest": {
