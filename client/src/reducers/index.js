@@ -1,11 +1,13 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import auth from './auth';
-import errors from './errors';
-import install from './install';
+import auth from "./auth";
+import errors from "./errors";
+import install from "./install";
 
-export default combineReducers({
-    auth,
-    install,
-    errors
+const rootReducer = combineReducers({
+  auth,
+  install,
+  errors
 });
+
+export default rootReducer;
